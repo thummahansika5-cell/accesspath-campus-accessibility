@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AccessPath"
+description = "A campus accessibility navigation app that interprets individual access needs, finds suitable routes across a seeded campus map, and maintains a shared record of accessibility barriers."
+version = "1.0.0"
+id = "artifacts/accesspath"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20666
+
+[services.development]
+run = "pnpm --filter @workspace/accesspath run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/accesspath", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/accesspath/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20666"
+BASE_PATH = "/"

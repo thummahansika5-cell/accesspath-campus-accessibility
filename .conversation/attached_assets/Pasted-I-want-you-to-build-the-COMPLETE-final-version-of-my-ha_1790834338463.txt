@@ -1,0 +1,771 @@
+I want you to build the COMPLETE final version of my hackathon project from scratch.
+
+IMPORTANT:
+Do not create a rough prototype that needs multiple follow-up prompts.
+Implement the complete functional MVP in this single build.
+Do not stop after creating the UI.
+Do not leave placeholder buttons, fake navigation, blank panels, broken forms, or unfinished pages.
+Test the complete user flow before considering the project finished.
+
+PROJECT NAME:
+AccessPath
+
+TAGLINE:
+"Maps tell you where to go. AccessPath tells you whether you can get there — and how."
+
+HACKATHON THEME:
+AI for Accessibility & Inclusion
+
+PROBLEM:
+Normal maps can tell people where a place is, but they often do not tell users whether they can actually access that place based on their individual accessibility needs.
+
+People with mobility, visual, hearing, cognitive, or other accessibility requirements may encounter stairs, blocked ramps, unavailable elevators, inaccessible entrances, confusing paths, inaccessible washrooms, or outdated accessibility information.
+
+AccessPath should help users:
+1. Understand accessibility conditions of campus locations.
+2. Describe their accessibility needs in natural language.
+3. Find a route suitable for those needs.
+4. SEE that route visually on an interactive map.
+5. Compare alternative routes.
+6. Report accessibility barriers.
+7. Use AI to interpret accessibility needs and barrier reports.
+8. Keep a shared campus accessibility record updated.
+
+TARGET DEMO:
+A user wants to travel from "Main Gate" to "Computer Lab".
+The shortest route may contain stairs.
+The user says:
+"I cannot use stairs and I don't mind walking a little farther."
+
+The system should understand this and recommend a step-free route.
+
+The user must then be able to click "View route on map" and see the actual route drawn visually on an interactive campus map.
+
+==================================================
+TECH STACK
+==================================================
+
+FRONTEND:
+- React.js
+- Vite
+- React Router
+- Tailwind CSS
+- Axios or fetch
+- Leaflet + React-Leaflet for interactive maps
+
+BACKEND:
+- Node.js
+- Express.js
+- REST API
+- JWT authentication architecture
+- bcrypt
+- Zod or Joi validation
+
+DATABASE:
+- PostgreSQL
+- Use a clean schema for locations, accessibility information, routes, accessibility reports and users.
+
+AI:
+Use Gemini or OpenAI through the BACKEND ONLY.
+The API key must NEVER appear in frontend code.
+Use environment variables.
+
+If an AI API key is unavailable during development:
+- Provide a clearly separated DEMO/FALLBACK mode.
+- The application must still work.
+- Do NOT pretend that fallback logic is a real AI API call.
+- Structure the code so a real AI provider can be enabled by adding the environment variable.
+
+MAP:
+Use Leaflet/React-Leaflet with OpenStreetMap tiles.
+
+Do NOT create a fake blank map panel.
+
+The map must be interactive:
+- zoom
+- pan
+- markers
+- route lines/polylines
+- start marker
+- destination marker
+- accessible route marker/path
+- alternative route path
+- popup/details for locations
+
+IMPORTANT:
+This is a CAMPUS PILOT, not a worldwide Google Maps replacement.
+
+Create a realistic demo campus coordinate system using sample campus coordinates around one campus area.
+
+Use a route graph / predefined campus paths so accessibility-aware routing actually works.
+
+Each route segment should have properties such as:
+- distance
+- stairs
+- step_free
+- ramp
+- elevator
+- surface
+- accessibility_notes
+
+The routing algorithm must prefer suitable routes according to user accessibility preferences.
+
+==================================================
+MAIN USER FLOW
+==================================================
+
+FLOW 1 — HOME
+
+Create a polished landing page.
+
+Hero:
+"Your route should work for you."
+
+Explain:
+AccessPath helps people understand whether a campus location and route are suitable for their accessibility needs.
+
+Buttons:
+- Find an accessible route
+- Explore campus
+- Describe my needs
+- Report a barrier
+
+Show 3–4 feature cards:
+- Personalized routes
+- Accessibility information
+- AI-powered understanding
+- Community barrier reports
+
+==================================================
+FLOW 2 — CAMPUS MAP
+==================================================
+
+Create a real interactive Leaflet map.
+
+Campus locations:
+- Main Gate
+- CSE Block
+- Computer Lab
+- Library
+- Admin Block
+- Cafeteria
+- Auditorium
+- Accessible Washroom
+- Parking
+
+Show markers for all locations.
+
+When a marker is clicked:
+show:
+- Location name
+- Type
+- Accessibility status
+- Step-free entrance
+- Ramp availability
+- Elevator availability
+- Accessible washroom availability
+- Notes
+- "Find route from here"
+- "Find route to here"
+
+Also show a location list beside/below the map.
+
+Selecting a location must update the map and show its accessibility details.
+
+==================================================
+FLOW 3 — ACCESSIBLE ROUTE PLANNER
+==================================================
+
+This is the MOST IMPORTANT feature.
+
+Create a page:
+"Find an accessible route"
+
+Inputs:
+START LOCATION
+DESTINATION
+
+Example:
+Main Gate → Computer Lab
+
+Accessibility preferences:
+- Avoid stairs
+- Prefer step-free paths
+- Need wheelchair-friendly route
+- Prefer elevators
+- Need accessible washroom
+- Avoid steep paths
+
+Also allow natural-language input:
+"Describe your needs"
+
+Example:
+"I cannot use stairs and I don't mind walking a little farther."
+
+Button:
+"Find accessible route"
+
+The system should:
+1. Interpret the user's needs.
+2. Convert them into structured preferences.
+3. Calculate suitable routes.
+4. Compare route accessibility.
+5. Recommend the most suitable route.
+6. Show alternative routes.
+7. Draw the selected route on the interactive map.
+
+==================================================
+ROUTE RESULT
+==================================================
+
+After route calculation, DO NOT only display text.
+
+Show:
+
+RECOMMENDED ROUTE
+
+Main Gate
+↓
+CSE Block
+↓
+Computer Lab
+
+Example:
+Distance: 307 m
+Estimated walking time: 5 min
+Steps/segments: 2
+Accessibility score: 100
+Route type: Step-free
+
+Then show:
+
+"Why this route?"
+- No stairs
+- Step-free path
+- Ramp available
+- Suitable for wheelchair users
+
+Then:
+
+BUTTON:
+"View route on map"
+
+When clicked:
+SCROLL TO OR OPEN THE MAP AND DRAW THE ROUTE.
+
+The route must be clearly visible as a polyline.
+
+Show:
+START marker
+DESTINATION marker
+route line
+route segment markers if useful
+
+==================================================
+ALTERNATIVE ROUTES
+==================================================
+
+This is REQUIRED.
+
+Show at least 2 routes when available:
+
+Route A:
+Shortest route
+250 m
+4 min
+Contains stairs
+Accessibility score: 45
+
+Route B:
+Accessible recommended route
+307 m
+5 min
+Step-free
+Accessibility score: 100
+
+The UI should clearly explain:
+
+"The recommended route is slightly longer because it avoids stairs."
+
+Allow the user to click another route.
+
+When another route is selected:
+- update the map
+- change the highlighted route
+- update distance
+- update estimated time
+- update accessibility information
+
+==================================================
+FLOW 4 — AI NEEDS ASSISTANT
+==================================================
+
+Create page:
+"Describe your needs"
+
+User enters natural language.
+
+Example:
+"I use a wheelchair, cannot use stairs, and I am okay with taking a longer route."
+
+AI should convert this into structured preferences:
+
+wheelchair_access: true
+avoid_stairs: true
+prefer_step_free: true
+distance_priority: low
+
+Show:
+
+"Here's what we understood"
+
+✓ Avoid stairs
+✓ Prefer step-free routes
+✓ Wheelchair-friendly paths
+✓ Longer route is acceptable
+
+Then provide:
+"Find my route"
+
+This should send the structured preferences to the route planner.
+
+==================================================
+FLOW 5 — REPORT A BARRIER
+==================================================
+
+Create page:
+"Report an accessibility barrier"
+
+Fields:
+- Location
+- Barrier type
+- Description
+- Urgency
+- Optional accessibility impact
+
+Barrier types:
+- Blocked ramp
+- Broken elevator
+- Stairs
+- Inaccessible entrance
+- Blocked pathway
+- Incorrect accessibility information
+- Accessible washroom unavailable
+- Other
+
+Example report:
+
+Location:
+CSE Block
+
+Barrier:
+Blocked ramp
+
+Description:
+"The ramp near the CSE Block entrance is blocked, so wheelchair users may not be able to use the accessible entrance."
+
+When submitted:
+send it to backend.
+
+AI should analyze the report and produce structured information:
+
+category
+severity
+affected_users
+summary
+recommended_action
+
+Example:
+Category: Access obstruction
+Severity: High
+Affected users: Wheelchair users, people using mobility aids
+Summary: Accessible entrance may be blocked.
+
+IMPORTANT:
+Clearly label AI-generated analysis.
+
+Then save the report in PostgreSQL.
+
+==================================================
+FLOW 6 — REPORT ACTIVITY DASHBOARD
+==================================================
+
+Create page:
+"Report activity"
+
+Show:
+- Total reports
+- Reported
+- Under review
+- Resolved
+- Critical open reports
+- Accessible locations count
+
+Show submitted reports.
+
+Each report should contain:
+- Location
+- Barrier
+- Description
+- AI analysis
+- Severity
+- Status
+- Date
+- Affected users
+
+Allow status changes:
+Reported
+→ Under Review
+→ Resolved
+
+Changes must persist in PostgreSQL.
+
+==================================================
+DATABASE
+==================================================
+
+Create PostgreSQL tables:
+
+users
+locations
+accessibility_features
+route_nodes
+route_segments
+accessibility_reports
+
+Use proper relationships.
+
+Seed the database with realistic campus data.
+
+The demo must have enough data for the complete Main Gate → Computer Lab route.
+
+==================================================
+ROUTING ENGINE
+==================================================
+
+Implement actual route-selection logic using the seeded campus graph.
+
+Each route segment should contain:
+
+from
+to
+distance
+stairs
+step_free
+ramp
+elevator
+surface
+notes
+
+Given user preferences:
+
+If avoid_stairs = true:
+heavily penalize or exclude segments containing stairs.
+
+If prefer_step_free = true:
+prefer step-free segments.
+
+If wheelchair_access = true:
+exclude paths that are not wheelchair suitable.
+
+The algorithm should compare multiple possible paths and return:
+- recommended route
+- alternative routes
+- accessibility score
+- reason for recommendation
+
+Do NOT simply hardcode the text "recommended route."
+
+The route result should be generated from the route data and user preferences.
+
+==================================================
+MAP ROUTE VISUALIZATION
+==================================================
+
+This is critical.
+
+Use Leaflet.
+
+When the route planner calculates a route:
+convert route nodes into geographic coordinates.
+
+Draw the selected route as a polyline.
+
+Draw alternative routes differently.
+
+Display:
+- Start marker
+- Destination marker
+- Route polyline
+- Accessible route information
+
+Clicking a route card must update the map.
+
+Clicking "View on map" must make the route visible.
+
+The user must never have to guess where the route is.
+
+==================================================
+AI ARCHITECTURE
+==================================================
+
+AI must have meaningful functionality.
+
+AI #1:
+Natural language accessibility needs → structured preferences.
+
+AI #2:
+Barrier report → structured classification.
+
+AI #3:
+Generate clear personalized navigation instructions from structured route data.
+
+Example:
+Instead of:
+"Go to CSE Block."
+
+Generate:
+"From the Main Gate, follow the step-free campus path toward the CSE Block. Continue along the ramp-accessible path and avoid the staircase near the east entrance. Enter through the accessible entrance."
+
+The AI must NEVER invent accessibility information.
+
+It must only use accessibility information supplied by the database.
+
+==================================================
+BACKEND API
+==================================================
+
+Create clean REST endpoints such as:
+
+GET /api/locations
+GET /api/locations/:id
+
+POST /api/routes
+POST /api/ai/interpret-needs
+
+POST /api/reports
+GET /api/reports
+PATCH /api/reports/:id/status
+
+GET /api/dashboard
+
+Add validation using Zod/Joi.
+
+Handle errors properly.
+
+==================================================
+UI / UX
+==================================================
+
+Design should look like a serious hackathon product, NOT a beginner tutorial.
+
+Style:
+- modern
+- clean
+- accessible
+- professional
+- responsive
+- strong typography
+- clear spacing
+- good contrast
+- subtle animations only
+- keyboard accessible
+- visible focus states
+
+Use a consistent sidebar/navigation.
+
+Desktop:
+sidebar + main content.
+
+Mobile:
+responsive navigation.
+
+Use accessible labels and semantic HTML.
+
+Do NOT overload the screen.
+
+==================================================
+AUTHENTICATION
+==================================================
+
+Create basic authentication architecture using:
+- JWT
+- bcrypt
+
+Users should be able to register/login.
+
+For the hackathon demo, you may provide a demo login.
+
+Do not expose passwords or API keys.
+
+==================================================
+SECURITY
+==================================================
+
+Never expose:
+- AI API keys
+- database credentials
+- JWT secrets
+
+Use .env variables.
+
+Create:
+.env.example
+
+Example variables:
+
+DATABASE_URL=
+JWT_SECRET=
+AI_API_KEY=
+AI_PROVIDER=
+
+Frontend must never access AI_API_KEY directly.
+
+==================================================
+GITHUB READINESS
+==================================================
+
+Create:
+README.md
+
+README must contain:
+
+1. Project overview
+2. Problem statement
+3. Solution
+4. Key features
+5. AI integration
+6. Architecture
+7. Tech stack
+8. Database
+9. Local setup
+10. Environment variables
+11. API documentation
+12. Deployment instructions
+13. Demo flow
+14. Future improvements
+
+Include architecture diagram in text/Markdown if possible.
+
+Make sure no secrets are committed.
+
+Create a useful .gitignore.
+
+==================================================
+DEPLOYMENT READINESS
+==================================================
+
+Frontend should be deployable to:
+Vercel or Netlify.
+
+Backend should be deployable to:
+Render/Railway/Fly.io.
+
+Database:
+PostgreSQL.
+
+Configure production environment variables.
+
+Make CORS configurable.
+
+Make API base URL configurable through frontend environment variables.
+
+==================================================
+FINAL DEMO FLOW
+==================================================
+
+The entire application must support this exact demo:
+
+1. Open AccessPath.
+2. Click "Find an accessible route."
+3. Start = Main Gate.
+4. Destination = Computer Lab.
+5. Enter:
+   "I cannot use stairs and I don't mind walking a little farther."
+6. AI interprets the requirement.
+7. App displays:
+   Avoid stairs
+   Prefer step-free paths.
+8. App calculates multiple routes.
+9. App recommends the step-free route.
+10. App explains why.
+11. User clicks "View route on map."
+12. Interactive Leaflet map opens/scrolls into view.
+13. Route is visibly drawn from Main Gate to Computer Lab.
+14. User can see the alternative route.
+15. User clicks the alternative route.
+16. Map updates to show that route.
+17. User goes to Report a Barrier.
+18. Reports:
+   "Ramp near CSE Block entrance is blocked."
+19. AI classifies the report.
+20. Report is stored in PostgreSQL.
+21. User opens Report Activity.
+22. The new report appears.
+23. Dashboard counters update.
+
+This complete flow MUST WORK.
+
+==================================================
+VERY IMPORTANT IMPLEMENTATION RULES
+==================================================
+
+Do not use fake buttons.
+
+Every major button must perform a real action.
+
+Do not leave blank map panels.
+
+Do not display a route only as text.
+
+The map must visually show the route.
+
+Do not rely on external paid map APIs requiring a key for the basic demo.
+
+Use Leaflet + OpenStreetMap for map rendering.
+
+For routing, use the campus route graph and geographic coordinates stored in the database.
+
+Do not claim real-world accessibility information that has not been verified.
+
+Clearly identify seeded campus data as demo/sample data.
+
+Do not use a generic chatbot as the main AI feature.
+
+AI must directly support:
+- accessibility needs interpretation
+- barrier classification
+- personalized route instructions
+
+Keep AI API calls on the backend.
+
+Make the application work even without an AI key through clearly labeled DEMO mode.
+
+Do not break existing working functionality while implementing another feature.
+
+After implementation:
+1. Run the frontend.
+2. Run the backend.
+3. Test every page.
+4. Test navigation.
+5. Test database writes.
+6. Test report persistence.
+7. Test route calculation.
+8. Test route visualization.
+9. Test alternative routes.
+10. Test AI fallback.
+11. Test responsive layout.
+12. Fix errors.
+13. Verify production build.
+
+Only after all of this, tell me the project is ready.
+
+FINAL OUTPUT SHOULD INCLUDE:
+- Project structure
+- How to run it
+- Required environment variables
+- Demo login if applicable
+- API endpoints
+- What AI features are implemented
+- Deployment instructions
+- Exact 3–5 minute hackathon demo flow
