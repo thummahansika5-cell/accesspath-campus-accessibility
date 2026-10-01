@@ -1,6 +1,6 @@
-# [Project name]
+# AccessPath
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+AccessPath combines a campus access-information record, an accessibility-aware route planner, and community barrier reports on a real interactive map.
 
 ## Run & Operate
 
@@ -22,23 +22,35 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/accesspath/` — React/Vite web application.
+- `artifacts/api-server/src/routes/accesspath.ts` — REST handlers for campus, routing, AI, reports, dashboard, and accounts.
+- `artifacts/api-server/src/lib/campus-routing.ts` — route-graph search and route scoring.
+- `artifacts/api-server/src/lib/accesspath-ai.ts` — optional backend OpenAI calls and explicit demo fallbacks.
+- `artifacts/api-server/src/lib/seed-campus.ts` — idempotent sample campus locations, features, nodes, and segments.
+- `lib/api-spec/openapi.yaml` — API source of truth; regenerate client and validation schemas with the codegen command above.
+- `lib/db/src/schema/` — PostgreSQL Drizzle table definitions.
+- `README.md` — local setup, API map, deployment, environment variables, and hackathon demo path.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Campus routing is deliberately limited to a seeded graph; the app is a campus pilot, not a general street-routing service.
+- Every campus access record is explicitly sample data and requires on-site verification.
+- OpenAI is optional and is called only from the API server; without `OPENAI_API_KEY`, local parsing/classification is labeled demo mode.
+- Account passwords are bcrypt-hashed. Use `JWT_SECRET` for deployments; `SESSION_SECRET` is a Replit demo fallback.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+People can inspect sample campus accessibility conditions, describe their needs, compare routes on a Leaflet/OpenStreetMap map, submit barrier reports, and track report status.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Complete functional MVP expected in one build; no placeholder buttons, fake navigation, or fake map panels.
+- Keep AI fallback mode visibly distinct from live AI behavior.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Push the Drizzle schema before starting the API. API startup then seeds demo campus graph data.
+- Add `DOM.Iterable` to the React Query API client TypeScript libraries when generated fetch code uses `Headers.entries()`.
 
 ## Pointers
 

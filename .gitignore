@@ -47,3 +47,9 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Local secrets and app build output
+.env
+.env.*
+!.env.example
+.vite/
